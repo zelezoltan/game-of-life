@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife.csproj", "{9CEE90CF-A73B-4B86-B157-E67E9D9A7ED2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Model", "..\GameOfLife.Model\GameOfLife.Model.csproj", "{AAEFC773-3545-433A-8431-7E6D1C26B1CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.Persistence", "..\GameOfLife.Persistence\GameOfLife.Persistence.csproj", "{0BB99503-DCAA-4925-9198-64E23E37E7C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{9CEE90CF-A73B-4B86-B157-E67E9D9A7ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEE90CF-A73B-4B86-B157-E67E9D9A7ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CEE90CF-A73B-4B86-B157-E67E9D9A7ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAEFC773-3545-433A-8431-7E6D1C26B1CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAEFC773-3545-433A-8431-7E6D1C26B1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAEFC773-3545-433A-8431-7E6D1C26B1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAEFC773-3545-433A-8431-7E6D1C26B1CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB99503-DCAA-4925-9198-64E23E37E7C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB99503-DCAA-4925-9198-64E23E37E7C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB99503-DCAA-4925-9198-64E23E37E7C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB99503-DCAA-4925-9198-64E23E37E7C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

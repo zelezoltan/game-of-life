@@ -5,8 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Game of Life" MinHeight="700" MinWidth="680" MaxHeight="700" MaxWidth="680">
+    <Window.Resources>
+        <Style x:Key="cellStyle" TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CellState}" Value="0">
+                    <Setter Property="Background" Value="Black"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CellState}" Value="1">
+                    <Setter Property="Background" Value="White"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Load Configuration" Command="{Binding LoadConfigurationCommand}"></MenuItem>
+            <MenuItem Header="Play" Command="{Binding PlayCommand}"></MenuItem>
+            <MenuItem Header="Pause" Command="{Binding PlayCommand}"></MenuItem>
+            <MenuItem Header="Step" Command="{Binding StepCommand}"></MenuItem>
+        </Menu>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding Size}" Columns="{Binding Size}"></UniformGrid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Style="{StaticResource cellStyle}"></Label>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding Row}"></Setter>
+                    <Setter Property="Grid.Column" Value="{Binding Column}"></Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="Generation: "></TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Generation}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
