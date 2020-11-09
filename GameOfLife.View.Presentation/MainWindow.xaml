@@ -38,7 +38,11 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Style="{StaticResource cellStyle}"></Label>
+                    <Label Style="{StaticResource cellStyle}">
+                        <Label.InputBindings>
+                            <MouseBinding Command="{Binding DataContext.ClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" MouseAction="LeftClick"></MouseBinding>
+                        </Label.InputBindings>
+                    </Label>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

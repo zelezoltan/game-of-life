@@ -27,6 +27,7 @@ namespace GameOfLife.ViewModel
         public DelegateCommand StepCommand { get; private set; }
         public DelegateCommand PlayCommand { get; private set; }
         public DelegateCommand PauseCommand { get; private set; }
+        public DelegateCommand ClickCommand { get; private set; }
         #endregion
 
         #region Events
@@ -48,6 +49,11 @@ namespace GameOfLife.ViewModel
             StepCommand = new DelegateCommand(x => OnStep());
             PlayCommand = new DelegateCommand(x => OnPlay());
             PauseCommand = new DelegateCommand(x => OnPause());
+            ClickCommand = new DelegateCommand(x =>
+            {
+                CellField field = (CellField)x;
+                _model.SetAlive(field.Row, field.Column);
+            });
 
             Cells = new ObservableCollection<CellField>();
             RefreshCells();

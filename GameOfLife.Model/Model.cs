@@ -156,6 +156,15 @@ namespace GameOfLife.Model
             // Initialize the cell matrix with alive cells
             this.InitializeCells(configuration.aliveCoordinates);
         }
+
+        public void SetAlive(int x, int y)
+        {
+            if (!this._isPlaying && this._cells[x,y] != Cell.Alive)
+            {
+                this._cells[x, y] = Cell.Alive;
+                OnCellChanged(x, y, Cell.Alive);
+            }
+        }
         #endregion
 
         #region Private Methods
