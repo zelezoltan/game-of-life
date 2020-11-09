@@ -5,7 +5,7 @@ This is a .Net implementation of Conway's Game of Life cellular automaton. It is
 To load the project in Visual Studio, navigate to the GameOfLife.View.Presentation directory and open the GameOfLife.sln file.
 
 ## Extra features to be added
-- [X] Toggle cell on click
+- [X] Toggle cell on click (while paused)
 - [ ] Create new pattern with a given size
 - [ ] Save current pattern to Life 1.06 format
 - [ ] Create a help popup
