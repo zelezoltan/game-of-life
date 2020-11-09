@@ -157,12 +157,19 @@ namespace GameOfLife.Model
             this.InitializeCells(configuration.aliveCoordinates);
         }
 
-        public void SetAlive(int x, int y)
+        public void ChangeCell(int x, int y)
         {
-            if (!this._isPlaying && this._cells[x,y] != Cell.Alive)
+            if (!this._isPlaying)
             {
-                this._cells[x, y] = Cell.Alive;
-                OnCellChanged(x, y, Cell.Alive);
+                if (this._cells[x, y] == Cell.Alive)
+                {
+                    this._cells[x, y] = Cell.Dead;
+                } else
+                {
+                    this._cells[x, y] = Cell.Alive;
+                }
+                
+                OnCellChanged(x, y, this._cells[x, y]);
             }
         }
         #endregion

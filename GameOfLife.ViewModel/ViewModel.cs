@@ -52,7 +52,7 @@ namespace GameOfLife.ViewModel
             ClickCommand = new DelegateCommand(x =>
             {
                 CellField field = (CellField)x;
-                _model.SetAlive(field.Row, field.Column);
+                _model.ChangeCell(field.Row, field.Column);
             });
 
             Cells = new ObservableCollection<CellField>();
