@@ -94,10 +94,11 @@ namespace GameOfLife.Model
         /// <summary>
         /// Toggles the running of the simulation
         /// </summary>
-        public void TogglePlay()
+        public bool TogglePlay()
         {
-            if (this._size == 0) return;
+            if (this._size == 0) return false;
             _isPlaying = !_isPlaying;
+            return true;
         }
 
         /// <summary>

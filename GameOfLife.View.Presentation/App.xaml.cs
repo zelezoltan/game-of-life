@@ -61,8 +61,9 @@ namespace GameOfLife.View.Presentation
         #region ViewModel Event Handlers
         private void ViewModel_Play(Object sender, EventArgs e)
         {
-            _model.TogglePlay();
-            _timer.Start();
+            if (_model.TogglePlay()){
+                _timer.Start();
+            }
         }
 
         private void ViewModel_Step(Object sender, EventArgs e)
@@ -72,8 +73,10 @@ namespace GameOfLife.View.Presentation
 
         private void ViewModel_Pause(Object sender, EventArgs e)
         {
-            _model.TogglePlay();
-            _timer.Stop();
+            if (_model.TogglePlay())
+            {
+                _timer.Stop();
+            }
         }
 
         private async void ViewModel_LoadConfiguration(Object sender, EventArgs e)
