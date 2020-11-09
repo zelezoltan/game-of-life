@@ -36,19 +36,23 @@ namespace GameOfLife.Model
                 for (int j = 0; j < this._size; ++j)
                 {
                     int aliveNeighbors = CountNeighboringAliveCells(i, j);
-                    if (_cells[i,j] == Cell.Alive && (aliveNeighbors == 2 || aliveNeighbors ==3))
+                    if (_cells[i,j] == Cell.Alive && (aliveNeighbors == 2 || aliveNeighbors == 3))
                     {
                         newCells[i, j] = Cell.Alive;
                     }
                     else if (_cells[i,j] == Cell.Dead && aliveNeighbors == 3)
                     {
                         newCells[i, j] = Cell.Alive;
+                        OnCellChanged(i, j, newCells[i, j]);
                     }
-                    else
+                    else if (_cells[i,j] == Cell.Alive && (aliveNeighbors < 2 || aliveNeighbors > 3))
+                    {
+                        newCells[i, j] = Cell.Dead;
+                        OnCellChanged(i, j, newCells[i, j]);
+                    } else
                     {
                         newCells[i, j] = Cell.Dead;
                     }
-                    OnCellChanged(i, j, newCells[i, j]);
                 }
             }
             this._cells = newCells;
@@ -67,7 +71,7 @@ namespace GameOfLife.Model
                     }
                 }
             }
-            return count;
+            return count - (this._cells[x,y] == Cell.Alive ? 1 : 0);
         }
 
         public void TogglePlay()
@@ -91,14 +95,18 @@ namespace GameOfLife.Model
                 if (coord.x > maxX) maxX = coord.x;
                 if (coord.y > maxY) maxY = coord.y;
             }
+            int padding = 5;
             foreach (Coordinates coord in configuration.aliveCoordinates)
             {
-                coord.x -= minX;
-                coord.y -= minY;
+                coord.x = coord.x - minX + padding;
+                coord.y = coord.y - minY + padding;
             }
-            maxX -= minX;
-            maxY -= minY;
-            this._size = Math.Max(maxX, maxY);
+            maxX = maxX - minX + padding;
+            maxY = maxY - minY + padding;
+            minX = padding;
+            minY = padding;
+            this._size = Math.Max(maxX, maxY) + 2*padding;
+            OnSizeChanged(this._size);
             this._generation = 0;
             this.InitializeCells(configuration.aliveCoordinates);
         }
@@ -122,10 +130,16 @@ namespace GameOfLife.Model
         }
 
         public event EventHandler<CellChangedEventArgs> CellChanged;
+        public event EventHandler SizeChanged;
 
         private void OnCellChanged(int x, int y, Cell cell)
         {
             CellChanged?.Invoke(this, new CellChangedEventArgs(x, y, cell));
+        }
+
+        private void OnSizeChanged(int size)
+        {
+            SizeChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

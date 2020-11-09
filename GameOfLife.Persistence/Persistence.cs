@@ -50,13 +50,7 @@ namespace GameOfLife.Persistence
                 line = await reader.ReadLineAsync();
                 if (line.Length > 0)
                 {
-                    if (line.Substring(0, 2) == "#P")
-                    {
-                        String[] lineElements = line.Split();
-                        currentUpperLeftX = int.Parse(lineElements[1]);
-                        currentUpperLeftY = int.Parse(lineElements[2]);
-                    }
-                    else if (line[0] != '#')
+                    if (line[0] != '#')
                     {
                         for (int i = 0; i < line.Length; ++i)
                         {
@@ -69,6 +63,13 @@ namespace GameOfLife.Persistence
                         }
                         ++currentUpperLeftY;
                     }
+                    else if (line.Substring(0, 2) == "#P")
+                    {
+                        String[] lineElements = line.Split();
+                        currentUpperLeftX = int.Parse(lineElements[1]);
+                        currentUpperLeftY = int.Parse(lineElements[2]);
+                    }
+                    
                 }
             }
             return configuration;

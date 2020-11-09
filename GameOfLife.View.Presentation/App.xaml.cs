@@ -36,6 +36,10 @@ namespace GameOfLife.View.Presentation
             _model = new Model.Model(_persistence);
 
             _viewModel = new ViewModel.ViewModel(_model);
+            _viewModel.LoadConfiguration += new EventHandler(ViewModel_LoadConfiguration);
+            _viewModel.Play += new EventHandler(ViewModel_Play);
+            _viewModel.Step += new EventHandler(ViewModel_Step);
+            _viewModel.Pause += new EventHandler(ViewModel_Pause);
 
             _view = new MainWindow();
             _view.DataContext = _viewModel;
@@ -53,11 +57,18 @@ namespace GameOfLife.View.Presentation
 
         private void ViewModel_Play(Object sender, EventArgs e)
         {
+            _model.TogglePlay();
             _timer.Start();
+        }
+
+        private void ViewModel_Step(Object sender, EventArgs e)
+        {
+            _model.Step();
         }
 
         private void ViewModel_Pause(Object sender, EventArgs e)
         {
+            _model.TogglePlay();
             _timer.Stop();
         }
 
@@ -74,7 +85,7 @@ namespace GameOfLife.View.Presentation
                 }
             } catch(Exception)
             {
-                MessageBox.Show("Error while loading the configuration file!", "Game of Life", MessageBoxButton.OK, MessageBoxButton.Error);
+                MessageBox.Show("Error while loading the configuration file!", "Game of Life", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -25,10 +25,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Load Configuration" Command="{Binding LoadConfigurationCommand}"></MenuItem>
-            <MenuItem Header="Play" Command="{Binding PlayCommand}"></MenuItem>
-            <MenuItem Header="Pause" Command="{Binding PlayCommand}"></MenuItem>
-            <MenuItem Header="Step" Command="{Binding StepCommand}"></MenuItem>
+            <MenuItem Header="Load Configuration" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
+            <MenuItem Header="Play" IsEnabled="{Binding Paused}" Command="{Binding PlayCommand}"></MenuItem>
+            <MenuItem Header="Pause" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>
+            <MenuItem Header="Step" IsEnabled="{Binding Paused}" Command="{Binding StepCommand}"></MenuItem>
         </Menu>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
             <ItemsControl.ItemsPanel>
