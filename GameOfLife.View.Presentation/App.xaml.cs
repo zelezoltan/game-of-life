@@ -1,50 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows;
-using GameOfLife.Model;
-using GameOfLife.Persistence;
-using GameOfLife.ViewModel;
 using Microsoft.Win32;
 
 namespace GameOfLife.View.Presentation
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Game of Life application class
     /// </summary>
     public partial class App : Application
     {
+        #region Fields
         private Model.Model _model;
         private DispatcherTimer _timer;
         private MainWindow _view;
         private ViewModel.ViewModel _viewModel;
         private Persistence.Persistence _persistence;
+        #endregion
 
+        #region Constructor
         public App()
         {
             Startup += new StartupEventHandler(App_Startup);
         }
+        #endregion
 
+        #region Application Event Handlers
         private void App_Startup(Object sender, StartupEventArgs e)
         {
+            // Create the persistence
             _persistence = new Persistence.Persistence();
 
+            // Create the model and inject the persistence
             _model = new Model.Model(_persistence);
 
+            // Create the view model and inject the model
             _viewModel = new ViewModel.ViewModel(_model);
             _viewModel.LoadConfiguration += new EventHandler(ViewModel_LoadConfiguration);
             _viewModel.Play += new EventHandler(ViewModel_Play);
             _viewModel.Step += new EventHandler(ViewModel_Step);
             _viewModel.Pause += new EventHandler(ViewModel_Pause);
 
+            // Create the view
             _view = new MainWindow();
             _view.DataContext = _viewModel;
             _view.Show();
 
+            // Create the timer
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(0.1);
             _timer.Tick += new EventHandler(TimerTick);
@@ -54,7 +56,9 @@ namespace GameOfLife.View.Presentation
         {
             _model.Step();
         }
+        #endregion
 
+        #region ViewModel Event Handlers
         private void ViewModel_Play(Object sender, EventArgs e)
         {
             _model.TogglePlay();
@@ -88,5 +92,6 @@ namespace GameOfLife.View.Presentation
                 MessageBox.Show("Error while loading the configuration file!", "Game of Life", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        #endregion
     }
 }

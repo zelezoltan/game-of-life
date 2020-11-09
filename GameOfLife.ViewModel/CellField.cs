@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameOfLife.ViewModel
+﻿namespace GameOfLife.ViewModel
 {
     public class CellField : ViewModelBase
     {

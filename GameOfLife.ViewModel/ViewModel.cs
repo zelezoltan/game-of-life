@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using GameOfLife.Model;
-using GameOfLife.Persistence;
 
 namespace GameOfLife.ViewModel
 {
+    /// <summary>
+    /// Game Of Life ViewModel class
+    /// </summary>
     public class ViewModel : ViewModelBase
     {
+        #region Fields
         private Model.Model _model;
+        #endregion
+
+        #region Properties
         public ObservableCollection<CellField> Cells { get; set; }
 
         public int Size { get { return _model.Size; } }
@@ -25,17 +27,22 @@ namespace GameOfLife.ViewModel
         public DelegateCommand StepCommand { get; private set; }
         public DelegateCommand PlayCommand { get; private set; }
         public DelegateCommand PauseCommand { get; private set; }
+        #endregion
 
+        #region Events
         public event EventHandler LoadConfiguration;
         public event EventHandler Step;
         public event EventHandler Pause;
         public event EventHandler Play;
+        #endregion
 
+        #region Constructor
         public ViewModel(Model.Model model)
         {
             this._model = model;
             _model.CellChanged += new EventHandler<CellChangedEventArgs>(Model_CellChanged);
             _model.SizeChanged += new EventHandler(Model_SizeChanged);
+            _model.GenerationChanged += new EventHandler(Model_GenerationChanged);
 
             LoadConfigurationCommand = new DelegateCommand(x => OnLoadConfiguration());
             StepCommand = new DelegateCommand(x => OnStep());
@@ -45,7 +52,9 @@ namespace GameOfLife.ViewModel
             Cells = new ObservableCollection<CellField>();
             RefreshCells();
         }
+        #endregion
 
+        #region Public Methods
         public void RefreshCells()
         {
             Cells.Clear();
@@ -68,7 +77,9 @@ namespace GameOfLife.ViewModel
             OnPropertyChanged("Paused");
             OnPropertyChanged("Playing");
         }
+        #endregion
 
+        #region Private Event handlers
         private void Model_CellChanged(Object sender, CellChangedEventArgs e)
         {
             Cells[e.PosX * _model.Size + e.PosY].CellState = (int)e.CellState;
@@ -93,6 +104,13 @@ namespace GameOfLife.ViewModel
             }
         }
 
+        private void Model_GenerationChanged(Object sender, EventArgs e)
+        {
+            OnPropertyChanged("Generation");
+        }
+        #endregion
+
+        #region Event Methods
         private void OnLoadConfiguration()
         {
             LoadConfiguration?.Invoke(this, EventArgs.Empty);
@@ -116,5 +134,6 @@ namespace GameOfLife.ViewModel
             OnPropertyChanged("Paused");
             OnPropertyChanged("Playing");
         }
+        #endregion
     }
 }

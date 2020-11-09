@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
     <Compile Include="CellChangedEventArgs.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

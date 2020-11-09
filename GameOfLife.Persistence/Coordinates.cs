@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameOfLife.Persistence
+﻿namespace GameOfLife.Persistence
 {
+    /// <summary>
+    /// Class representing the coordinates of cells
+    /// </summary>
     public class Coordinates
     {
         public int x;

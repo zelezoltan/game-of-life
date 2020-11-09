@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Coordinates.cs" />
     <Compile Include="Persistence.cs" />
