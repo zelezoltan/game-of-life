@@ -32,7 +32,7 @@ namespace GameOfLife.ViewModel
         public DelegateCommand StepCommand { get; private set; }
         public DelegateCommand PlayCommand { get; private set; }
         public DelegateCommand PauseCommand { get; private set; }
-        public DelegateCommand ClickCommand { get; private set; }
+        public DelegateCommand DeleteCellCommand { get; private set; }
         public DelegateCommand CanvasClickCommand { get; private set; }
         #endregion
 
@@ -57,13 +57,12 @@ namespace GameOfLife.ViewModel
             StepCommand = new DelegateCommand(x => OnStep());
             PlayCommand = new DelegateCommand(x => OnPlay());
             PauseCommand = new DelegateCommand(x => OnPause());
-            ClickCommand = new DelegateCommand(x =>
+            DeleteCellCommand = new DelegateCommand(x =>
             {
                 CellField field = (CellField)x;
                 _model.ChangeCell((int)(field.Row / CellSizeY), (int)(field.Column / CellSizeX));
             });
             CanvasClickCommand = new DelegateCommand(x => {
-                //Point p = Mouse.GetPosition(null);
                 OnCanvasClick();
             });
 

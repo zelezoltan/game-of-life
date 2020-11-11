@@ -67,7 +67,7 @@ namespace GameOfLife.View.Presentation
             int y = (int)(p.X / _viewModel.CellSizeY);
             int x = (int)(p.Y / _viewModel.CellSizeX);
             _model.ChangeCell(x, y);
-            
+            //Mouse.LeftButton == MouseButtonState.Pressed
         }
 
         private void ViewModel_Play(Object sender, EventArgs e)

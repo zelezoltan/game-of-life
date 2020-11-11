@@ -47,7 +47,7 @@
                 <DataTemplate>
                     <Rectangle Style="{StaticResource cellStyle}" Width="{Binding DataContext.CellSizeX, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Height="{Binding DataContext.CellSizeY, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
                         <Rectangle.InputBindings>
-                            <MouseBinding Command="{Binding DataContext.ClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" MouseAction="LeftClick"></MouseBinding>
+                            <MouseBinding Command="{Binding DataContext.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" MouseAction="LeftClick"></MouseBinding>
                         </Rectangle.InputBindings>
                     </Rectangle>
                 </DataTemplate>
