@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using GameOfLife.Persistence;
 
 namespace GameOfLife.Model
@@ -72,29 +74,77 @@ namespace GameOfLife.Model
                 for (int j = 0; j < this._size; ++j)
                 {
                     int aliveNeighbors = CountNeighboringAliveCells(i, j);
-                    if (_cells[i,j] == Cell.Alive && (aliveNeighbors == 2 || aliveNeighbors == 3))
+                    if (_cells[i, j] == Cell.Alive && (aliveNeighbors == 2 || aliveNeighbors == 3))
                     {
                         newCells[i, j] = Cell.Alive;
                         AliveCells.Add(new Coordinates(i, j));
                     }
-                    else if (_cells[i,j] == Cell.Dead && aliveNeighbors == 3)
+                    else if (_cells[i, j] == Cell.Dead && aliveNeighbors == 3)
                     {
                         newCells[i, j] = Cell.Alive;
                         OnCellChanged(i, j, newCells[i, j]);
                         AliveCells.Add(new Coordinates(i, j));
                     }
-                    else if (_cells[i,j] == Cell.Alive && (aliveNeighbors < 2 || aliveNeighbors > 3))
+                    else if (_cells[i, j] == Cell.Alive && (aliveNeighbors < 2 || aliveNeighbors > 3))
                     {
                         newCells[i, j] = Cell.Dead;
                         OnCellChanged(i, j, newCells[i, j]);
-                    } else
+                    }
+                    else
                     {
                         newCells[i, j] = Cell.Dead;
                     }
                 }
             }
+
             this._cells = newCells;
         }
+
+        public void ParallelStep()
+        {
+            if (this._size == 0) return;
+            ++_generation;
+            OnGenerationChanged();
+            Cell[,] newCells = new Cell[this._size, this._size];
+            AliveCells.Clear();
+            ConcurrentBag<Coordinates> modifiedCells = new ConcurrentBag<Coordinates>();
+            Parallel.For(0, this._size, (i) =>
+            {
+                for (int j = 0; j < this._size; ++j)
+                {
+                    int aliveNeighbors = CountNeighboringAliveCells(i, j);
+                    if (_cells[i, j] == Cell.Alive && (aliveNeighbors == 2 || aliveNeighbors == 3))
+                    {
+                        newCells[i, j] = Cell.Alive;
+                        AliveCells.Add(new Coordinates(i, j));
+                    }
+                    else if (_cells[i, j] == Cell.Dead && aliveNeighbors == 3)
+                    {
+                        newCells[i, j] = Cell.Alive;
+                        //OnCellChanged(i, j, newCells[i, j]);
+                        AliveCells.Add(new Coordinates(i, j));
+                        modifiedCells.Add(new Coordinates(i, j));
+                    }
+                    else if (_cells[i, j] == Cell.Alive && (aliveNeighbors < 2 || aliveNeighbors > 3))
+                    {
+                        newCells[i, j] = Cell.Dead;
+                        //OnCellChanged(i, j, newCells[i, j]);
+                        modifiedCells.Add(new Coordinates(i, j));
+                    }
+                    else
+                    {
+                        newCells[i, j] = Cell.Dead;
+                    }
+                }
+            });
+            foreach (Coordinates coord in modifiedCells)
+            {
+                OnCellChanged(coord.x, coord.y, newCells[coord.x, coord.y]);
+            }
+
+            this._cells = newCells;
+        }
+
 
         /// <summary>
         /// Toggles the running of the simulation
