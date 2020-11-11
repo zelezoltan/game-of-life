@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using GameOfLife.Model;
+using GameOfLife.Persistence;
+using System.Linq;
 
 namespace GameOfLife.ViewModel
 {
@@ -22,6 +25,8 @@ namespace GameOfLife.ViewModel
 
         public bool Paused { get { return !_model.IsPlaying; } }
         public bool Playing { get { return _model.IsPlaying; } }
+        public double CellSizeX { get { return 680.0/ Size; } }
+        public double CellSizeY { get { return 680.0 / Size; } }
 
         public DelegateCommand LoadConfigurationCommand { get; private set; }
         public DelegateCommand StepCommand { get; private set; }
@@ -44,6 +49,7 @@ namespace GameOfLife.ViewModel
             _model.CellChanged += new EventHandler<CellChangedEventArgs>(Model_CellChanged);
             _model.SizeChanged += new EventHandler(Model_SizeChanged);
             _model.GenerationChanged += new EventHandler(Model_GenerationChanged);
+            _model.LoadComplete += new EventHandler(Model_LoadComplete);
 
             LoadConfigurationCommand = new DelegateCommand(x => OnLoadConfiguration());
             StepCommand = new DelegateCommand(x => OnStep());
@@ -52,11 +58,11 @@ namespace GameOfLife.ViewModel
             ClickCommand = new DelegateCommand(x =>
             {
                 CellField field = (CellField)x;
-                _model.ChangeCell(field.Row, field.Column);
+                _model.ChangeCell((int)(field.Row / CellSizeY), (int)(field.Column / CellSizeX));
             });
 
             Cells = new ObservableCollection<CellField>();
-            RefreshCells();
+            //RefreshCells();
         }
         #endregion
 
@@ -64,20 +70,32 @@ namespace GameOfLife.ViewModel
         public void RefreshCells()
         {
             Cells.Clear();
-            Cell[,] modelCells = _model.Cells;
+            //Cell[,] modelCells = _model.Cells;
 
-            for(int i = 0; i < _model.Size; ++i)
+            //for(int i = 0; i < _model.Size; ++i)
+            //{
+            //    for (int j = 0; j < _model.Size; ++j)
+            //    {
+            //        Cells.Add(new CellField
+            //        {
+            //            CellState = (int)modelCells[i, j],
+            //            Row = i*CellSizeY,
+            //            Column = j*CellSizeX
+            //        });
+            //    }
+            //}
+
+            List<Coordinates> aliveCells = _model.AliveCells;
+            foreach (Coordinates coord in aliveCells)
             {
-                for (int j = 0; j < _model.Size; ++j)
+                Cells.Add(new CellField
                 {
-                    Cells.Add(new CellField
-                    {
-                        CellState = (int)modelCells[i, j],
-                        Row = i,
-                        Column = j
-                    });
-                }
+                    CellState = (int)Cell.Alive,
+                    Row = coord.x * CellSizeY,
+                    Column = coord.y * CellSizeX
+                });
             }
+
             OnPropertyChanged("Generation");
             OnPropertyChanged("Size");
             OnPropertyChanged("Paused");
@@ -86,28 +104,50 @@ namespace GameOfLife.ViewModel
         #endregion
 
         #region Private Event handlers
+
+        private void Model_LoadComplete(Object sender, EventArgs e)
+        {
+            RefreshCells();
+        }
+
         private void Model_CellChanged(Object sender, CellChangedEventArgs e)
         {
-            Cells[e.PosX * _model.Size + e.PosY].CellState = (int)e.CellState;
+            //Cells[e.PosX * _model.Size + e.PosY].CellState = (int)e.CellState;
+            if (e.CellState == Cell.Dead)
+            {
+                CellField cellToRemove = Cells.Single(cell => Math.Abs(cell.Row - e.PosX * CellSizeY) < 0.0001 && Math.Abs(cell.Column - e.PosY * CellSizeX) < 0.0001);
+                Cells.Remove(cellToRemove);
+            } else
+            {
+                Cells.Add(new CellField
+                {
+                    CellState = (int)Cell.Alive,
+                    Row = e.PosX * CellSizeY,
+                    Column = e.PosY * CellSizeX
+                });
+            }
+            
+            //RefreshCells();
             OnPropertyChanged("Generation");
         }
 
         private void Model_SizeChanged(Object sender, EventArgs e)
         {
-            this.Cells.Clear();
-            int size = _model.Size;
-            for (int i = 0; i < size; ++i)
-            {
-                for (int j = 0; j < size; ++j)
-                {
-                    Cells.Add(new CellField
-                    {
-                        CellState = (int)Cell.Dead,
-                        Row = i,
-                        Column = j
-                    });
-                }
-            }
+            //this.Cells.Clear();
+            //int size = _model.Size;
+            //for (int i = 0; i < size; ++i)
+            //{
+            //    for (int j = 0; j < size; ++j)
+            //    {
+            //        Cells.Add(new CellField
+            //        {
+            //            CellState = (int)Cell.Dead,
+            //            Row = i*CellSizeY,
+            //            Column = j*CellSizeX
+            //        });
+            //    }
+            //}
+            RefreshCells();
         }
 
         private void Model_GenerationChanged(Object sender, EventArgs e)

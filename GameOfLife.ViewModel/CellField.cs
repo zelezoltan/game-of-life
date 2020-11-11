@@ -1,4 +1,7 @@
-﻿namespace GameOfLife.ViewModel
+﻿using System;
+using System.Windows.Media;
+
+namespace GameOfLife.ViewModel
 {
     public class CellField : ViewModelBase
     {
@@ -17,7 +20,7 @@
             }
         }
 
-        public int Row { get; set; }
-        public int Column { get; set; }
+        public double Row { get; set; }
+        public double Column { get; set; }
     }
 }

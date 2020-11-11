@@ -20,6 +20,8 @@ namespace GameOfLife.Model
         #endregion
 
         #region Properties
+        public List<Coordinates> AliveCells { get; set; }
+
         /// <summary>
         /// Returns a matrix with the cell states
         /// </summary>
@@ -64,6 +66,7 @@ namespace GameOfLife.Model
             ++_generation;
             OnGenerationChanged();
             Cell[,] newCells = new Cell[this._size, this._size];
+            AliveCells.Clear();
             for (int i = 0; i < this._size; ++i)
             {
                 for (int j = 0; j < this._size; ++j)
@@ -72,11 +75,13 @@ namespace GameOfLife.Model
                     if (_cells[i,j] == Cell.Alive && (aliveNeighbors == 2 || aliveNeighbors == 3))
                     {
                         newCells[i, j] = Cell.Alive;
+                        AliveCells.Add(new Coordinates(i, j));
                     }
                     else if (_cells[i,j] == Cell.Dead && aliveNeighbors == 3)
                     {
                         newCells[i, j] = Cell.Alive;
                         OnCellChanged(i, j, newCells[i, j]);
+                        AliveCells.Add(new Coordinates(i, j));
                     }
                     else if (_cells[i,j] == Cell.Alive && (aliveNeighbors < 2 || aliveNeighbors > 3))
                     {
@@ -111,6 +116,7 @@ namespace GameOfLife.Model
             if (_persistence == null) throw new InvalidOperationException("No persistence provided!");
             // Loading the alive coordinates
             Configuration configuration = await _persistence.LoadConfiguration(path);
+            AliveCells = configuration.aliveCoordinates;
             // To calculate the bounding square we calculate the min and max coordinates of the cells
             int minX = int.MaxValue;
             int minY = int.MaxValue;
@@ -156,6 +162,7 @@ namespace GameOfLife.Model
             this._generation = 0;
             // Initialize the cell matrix with alive cells
             this.InitializeCells(configuration.aliveCoordinates);
+            OnLoadComplete();
         }
 
         public void ChangeCell(int x, int y)
@@ -220,13 +227,13 @@ namespace GameOfLife.Model
                 for (int j = 0; j < this._size; ++j)
                 {
                     this._cells[i, j] = Cell.Dead;
-                    OnCellChanged(i, j, Cell.Dead);
+                    //OnCellChanged(i, j, Cell.Dead);
                 }
             }
             foreach (Coordinates coord in aliveCoordinates)
             {
                 this._cells[coord.x, coord.y] = Cell.Alive;
-                OnCellChanged(coord.x, coord.y, Cell.Alive);
+                //OnCellChanged(coord.x, coord.y, Cell.Alive);
             }
         }
         #endregion
@@ -246,9 +253,16 @@ namespace GameOfLife.Model
         /// Event signaling that the generation changed
         /// </summary>
         public event EventHandler GenerationChanged;
+
+        public event EventHandler LoadComplete;
         #endregion
 
         #region Private Event Methods
+        private void OnLoadComplete()
+        {
+            LoadComplete?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>
         /// Triggering the cell changed event
         /// </summary>

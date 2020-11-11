@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife.View.Presentation"
         mc:Ignorable="d"
-        Title="Game of Life" MinHeight="700" MinWidth="680" MaxHeight="700" MaxWidth="680">
+        Title="Game of Life" MinHeight="760" MinWidth="695" MaxHeight="760" MaxWidth="695">
     <Window.Resources>
-        <Style x:Key="cellStyle" TargetType="Label">
+        <VisualBrush x:Key="Alive">Black</VisualBrush>
+        <VisualBrush x:Key="Dead">White</VisualBrush>
+        <Style x:Key="cellStyle" TargetType="Rectangle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CellState}" Value="0">
-                    <Setter Property="Background" Value="Black"></Setter>
+                    <Setter Property="Fill" Value="{StaticResource Alive}"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding CellState}" Value="1">
-                    <Setter Property="Background" Value="White"></Setter>
+                    <Setter Property="Fill" Value="{StaticResource Dead}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -33,22 +35,23 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="{Binding Size}" Columns="{Binding Size}"></UniformGrid>
+                    <Canvas></Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Style="{StaticResource cellStyle}">
-                        <Label.InputBindings>
+                    <Rectangle Style="{StaticResource cellStyle}" Width="{Binding DataContext.CellSizeX, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Height="{Binding DataContext.CellSizeY, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                        <Rectangle.InputBindings>
                             <MouseBinding Command="{Binding DataContext.ClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" MouseAction="LeftClick"></MouseBinding>
-                        </Label.InputBindings>
-                    </Label>
+                        </Rectangle.InputBindings>
+                    </Rectangle>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
                 <Style>
-                    <Setter Property="Grid.Row" Value="{Binding Row}"></Setter>
-                    <Setter Property="Grid.Column" Value="{Binding Column}"></Setter>
+                    <Setter Property="Canvas.Top" Value="{Binding Row}"></Setter>
+                    <Setter Property="Canvas.Left" Value="{Binding Column}"></Setter>
+                    
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
