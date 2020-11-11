@@ -217,7 +217,7 @@ namespace GameOfLife.Model
 
         public void ChangeCell(int x, int y)
         {
-            if (!this._isPlaying)
+            if (!this._isPlaying && this._size > 0)
             {
                 if (this._cells[x, y] == Cell.Alive)
                 {

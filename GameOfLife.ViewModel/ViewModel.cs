@@ -33,6 +33,7 @@ namespace GameOfLife.ViewModel
         public DelegateCommand PlayCommand { get; private set; }
         public DelegateCommand PauseCommand { get; private set; }
         public DelegateCommand ClickCommand { get; private set; }
+        public DelegateCommand CanvasClickCommand { get; private set; }
         #endregion
 
         #region Events
@@ -40,6 +41,7 @@ namespace GameOfLife.ViewModel
         public event EventHandler Step;
         public event EventHandler Pause;
         public event EventHandler Play;
+        public event EventHandler CanvasClick;
         #endregion
 
         #region Constructor
@@ -59,6 +61,10 @@ namespace GameOfLife.ViewModel
             {
                 CellField field = (CellField)x;
                 _model.ChangeCell((int)(field.Row / CellSizeY), (int)(field.Column / CellSizeX));
+            });
+            CanvasClickCommand = new DelegateCommand(x => {
+                //Point p = Mouse.GetPosition(null);
+                OnCanvasClick();
             });
 
             Cells = new ObservableCollection<CellField>();
@@ -157,6 +163,11 @@ namespace GameOfLife.ViewModel
         #endregion
 
         #region Event Methods
+
+        private void OnCanvasClick()
+        {
+            CanvasClick?.Invoke(this, EventArgs.Empty);
+        }
         private void OnLoadConfiguration()
         {
             LoadConfiguration?.Invoke(this, EventArgs.Empty);

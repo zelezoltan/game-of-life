@@ -2,6 +2,7 @@
 using System.Windows.Threading;
 using System.Windows;
 using Microsoft.Win32;
+using System.Windows.Input;
 
 namespace GameOfLife.View.Presentation
 {
@@ -40,6 +41,7 @@ namespace GameOfLife.View.Presentation
             _viewModel.Play += new EventHandler(ViewModel_Play);
             _viewModel.Step += new EventHandler(ViewModel_Step);
             _viewModel.Pause += new EventHandler(ViewModel_Pause);
+            _viewModel.CanvasClick += new EventHandler(ViewModel_CanvasClicked);
 
             // Create the view
             _view = new MainWindow();
@@ -59,6 +61,15 @@ namespace GameOfLife.View.Presentation
         #endregion
 
         #region ViewModel Event Handlers
+        private void ViewModel_CanvasClicked(Object sender, EventArgs e)
+        {
+            Point p = Mouse.GetPosition(Mouse.DirectlyOver);
+            int y = (int)(p.X / _viewModel.CellSizeY);
+            int x = (int)(p.Y / _viewModel.CellSizeX);
+            _model.ChangeCell(x, y);
+            
+        }
+
         private void ViewModel_Play(Object sender, EventArgs e)
         {
             if (_model.TogglePlay()){

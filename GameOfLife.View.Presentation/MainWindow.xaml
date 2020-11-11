@@ -32,10 +32,15 @@
             <MenuItem Header="Pause" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>
             <MenuItem Header="Step" IsEnabled="{Binding Paused}" Command="{Binding StepCommand}"></MenuItem>
         </Menu>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}">
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}" x:Name="cellsCanvas">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas></Canvas>
+                    <Canvas Background="White">
+                        <Canvas.InputBindings>
+                            <MouseBinding Command="{Binding DataContext.CanvasClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" MouseAction="LeftClick">
+                                </MouseBinding>
+                        </Canvas.InputBindings>
+                    </Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

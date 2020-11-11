@@ -23,6 +23,7 @@ namespace GameOfLife.View.Presentation
         public MainWindow()
         {
             InitializeComponent();
+            
         }
     }
 }
