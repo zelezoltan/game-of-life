@@ -7,6 +7,8 @@ To load the project in Visual Studio, navigate to the GameOfLife.View.Presentati
 ## Extra features to be added
 - [X] Toggle cell on click (while paused)
 - [ ] Create new pattern with a given size
+- [ ] Create random pattern with a given size
+- [ ] Show description of the current loaded pattern
 - [ ] Save current pattern to Life 1.06 format
 - [ ] Create a help popup
 - [ ] Step backwards (Save previous states)
