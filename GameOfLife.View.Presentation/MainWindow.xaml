@@ -24,9 +24,11 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Playing}" Value="True">
                     <Setter Property="Header" Value="&#xE769;"></Setter>
+                    <Setter Property="ToolTip" Value="Pause"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Playing}" Value="False">
                     <Setter Property="Header" Value="&#xE768;"></Setter>
+                    <Setter Property="ToolTip" Value="Play"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -39,19 +41,37 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Patterns" IsEnabled="{Binding Paused}">
-                <MenuItem Header="Create Pattern" IsEnabled="{Binding Paused}" Command="{Binding NewPatternCommand}"></MenuItem>
+                <MenuItem Header="Create Pattern" IsEnabled="False" Command="{Binding NewPatternCommand}"></MenuItem>
                 <MenuItem Header="Load Pattern" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
             </MenuItem>
             
             
             <!--<MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE769;" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>-->
-            <MenuItem Style="{StaticResource PlayButtonStyle}" FontFamily="Segoe MDL2 Assets" Command="{Binding PlayCommand}"></MenuItem>
-            <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE76C;" IsEnabled="{Binding Paused}" Command="{Binding StepCommand}"></MenuItem>
+            <MenuItem FontFamily="Segoe MDL2 Assets" 
+                      Header="&#xE76B;" 
+                      IsEnabled="False" 
+                      Command="{Binding StepBackCommand}"
+                      ToolTipService.InitialShowDelay="1000"
+                      ToolTipService.BetweenShowDelay="10000"
+                      ToolTip="Step back"></MenuItem>
+            <MenuItem Style="{StaticResource PlayButtonStyle}" 
+                      FontFamily="Segoe MDL2 Assets" 
+                      Command="{Binding PlayCommand}" 
+                      ToolTipService.InitialShowDelay="1000"
+                      ToolTipService.BetweenShowDelay="10000"
+                      ></MenuItem>
+            <MenuItem FontFamily="Segoe MDL2 Assets" 
+                      Header="&#xE76C;" 
+                      IsEnabled="{Binding Paused}" 
+                      Command="{Binding StepCommand}"
+                      ToolTipService.InitialShowDelay="1000"
+                      ToolTipService.BetweenShowDelay="10000"
+                      ToolTip="Step"></MenuItem>
         </Menu>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}" x:Name="cellsCanvas">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Background="White">
+                    <Canvas Background="White" Cursor="Hand">
                         <Canvas.InputBindings>
                             <MouseBinding Command="{Binding DataContext.CanvasClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" MouseAction="LeftClick">
                                 </MouseBinding>
