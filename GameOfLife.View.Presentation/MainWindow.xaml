@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife.View.Presentation"
         mc:Ignorable="d"
-        Title="Game of Life" MinHeight="760" MinWidth="695" MaxHeight="760" MaxWidth="695">
+        Title="Game of Life" MinHeight="760" MinWidth="695" MaxHeight="760" MaxWidth="695"
+        Icon="Images/icon.png">
     <Window.Resources>
         <VisualBrush x:Key="Alive">Black</VisualBrush>
         <VisualBrush x:Key="Dead">White</VisualBrush>
@@ -27,10 +28,11 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Load Configuration" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
-            <MenuItem Header="Play" IsEnabled="{Binding Paused}" Command="{Binding PlayCommand}"></MenuItem>
-            <MenuItem Header="Pause" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>
-            <MenuItem Header="Step" IsEnabled="{Binding Paused}" Command="{Binding StepCommand}"></MenuItem>
+            <MenuItem Header="Load Pattern" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
+            
+            <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE769;" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>
+            <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE768;" IsEnabled="{Binding Paused}" Command="{Binding PlayCommand}"></MenuItem>
+            <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE76C;" IsEnabled="{Binding Paused}" Command="{Binding StepCommand}"></MenuItem>
         </Menu>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}" x:Name="cellsCanvas">
             <ItemsControl.ItemsPanel>

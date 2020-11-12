@@ -67,7 +67,6 @@ namespace GameOfLife.ViewModel
             });
 
             Cells = new ObservableCollection<CellField>();
-            //RefreshCells();
         }
         #endregion
 
@@ -75,20 +74,6 @@ namespace GameOfLife.ViewModel
         public void RefreshCells()
         {
             Cells.Clear();
-            //Cell[,] modelCells = _model.Cells;
-
-            //for(int i = 0; i < _model.Size; ++i)
-            //{
-            //    for (int j = 0; j < _model.Size; ++j)
-            //    {
-            //        Cells.Add(new CellField
-            //        {
-            //            CellState = (int)modelCells[i, j],
-            //            Row = i*CellSizeY,
-            //            Column = j*CellSizeX
-            //        });
-            //    }
-            //}
 
             List<Coordinates> aliveCells = _model.AliveCells;
             foreach (Coordinates coord in aliveCells)
@@ -117,7 +102,6 @@ namespace GameOfLife.ViewModel
 
         private void Model_CellChanged(Object sender, CellChangedEventArgs e)
         {
-            //Cells[e.PosX * _model.Size + e.PosY].CellState = (int)e.CellState;
             if (e.CellState == Cell.Dead)
             {
                 CellField cellToRemove = Cells.Single(cell => Math.Abs(cell.Row - e.PosX * CellSizeY) < 0.0001 && Math.Abs(cell.Column - e.PosY * CellSizeX) < 0.0001);
@@ -132,26 +116,11 @@ namespace GameOfLife.ViewModel
                 });
             }
             
-            //RefreshCells();
             OnPropertyChanged("Generation");
         }
 
         private void Model_SizeChanged(Object sender, EventArgs e)
         {
-            //this.Cells.Clear();
-            //int size = _model.Size;
-            //for (int i = 0; i < size; ++i)
-            //{
-            //    for (int j = 0; j < size; ++j)
-            //    {
-            //        Cells.Add(new CellField
-            //        {
-            //            CellState = (int)Cell.Dead,
-            //            Row = i*CellSizeY,
-            //            Column = j*CellSizeX
-            //        });
-            //    }
-            //}
             RefreshCells();
         }
 
