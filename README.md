@@ -15,5 +15,5 @@ To load the project in Visual Studio, navigate to the GameOfLife.View.Presentati
 
 <hr>
 <p align="center">
-  <img src="gameoflife.jpg">
+  
 </p>
