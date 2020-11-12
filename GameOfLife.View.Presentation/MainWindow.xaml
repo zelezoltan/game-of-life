@@ -20,6 +20,16 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="PlayButtonStyle" TargetType="MenuItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Playing}" Value="True">
+                    <Setter Property="Header" Value="&#xE769;"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Playing}" Value="False">
+                    <Setter Property="Header" Value="&#xE768;"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,10 +38,14 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Load Pattern" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
+            <MenuItem Header="Patterns" IsEnabled="{Binding Paused}">
+                <MenuItem Header="Create Pattern" IsEnabled="{Binding Paused}" Command="{Binding NewPatternCommand}"></MenuItem>
+                <MenuItem Header="Load Pattern" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
+            </MenuItem>
             
-            <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE769;" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>
-            <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE768;" IsEnabled="{Binding Paused}" Command="{Binding PlayCommand}"></MenuItem>
+            
+            <!--<MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE769;" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>-->
+            <MenuItem Style="{StaticResource PlayButtonStyle}" FontFamily="Segoe MDL2 Assets" Command="{Binding PlayCommand}"></MenuItem>
             <MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE76C;" IsEnabled="{Binding Paused}" Command="{Binding StepCommand}"></MenuItem>
         </Menu>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}" x:Name="cellsCanvas">

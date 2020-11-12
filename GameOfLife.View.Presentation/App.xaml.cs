@@ -40,7 +40,7 @@ namespace GameOfLife.View.Presentation
             _viewModel.LoadConfiguration += new EventHandler(ViewModel_LoadConfiguration);
             _viewModel.Play += new EventHandler(ViewModel_Play);
             _viewModel.Step += new EventHandler(ViewModel_Step);
-            _viewModel.Pause += new EventHandler(ViewModel_Pause);
+            //_viewModel.Pause += new EventHandler(ViewModel_Pause);
             _viewModel.CanvasClick += new EventHandler(ViewModel_CanvasClicked);
 
             // Create the view
@@ -73,7 +73,13 @@ namespace GameOfLife.View.Presentation
         private void ViewModel_Play(Object sender, EventArgs e)
         {
             if (_model.TogglePlay()){
-                _timer.Start();
+                if (_model.IsPlaying)
+                {
+                    _timer.Start();
+                } else
+                {
+                    _timer.Stop();
+                }
             }
         }
 
@@ -82,13 +88,13 @@ namespace GameOfLife.View.Presentation
             _model.Step();
         }
 
-        private void ViewModel_Pause(Object sender, EventArgs e)
-        {
-            if (_model.TogglePlay())
-            {
-                _timer.Stop();
-            }
-        }
+        //private void ViewModel_Pause(Object sender, EventArgs e)
+        //{
+        //    if (_model.TogglePlay())
+        //    {
+        //        _timer.Stop();
+        //    }
+        //}
 
         private async void ViewModel_LoadConfiguration(Object sender, EventArgs e)
         {

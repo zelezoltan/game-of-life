@@ -31,7 +31,7 @@ namespace GameOfLife.ViewModel
         public DelegateCommand LoadConfigurationCommand { get; private set; }
         public DelegateCommand StepCommand { get; private set; }
         public DelegateCommand PlayCommand { get; private set; }
-        public DelegateCommand PauseCommand { get; private set; }
+        //public DelegateCommand PauseCommand { get; private set; }
         public DelegateCommand DeleteCellCommand { get; private set; }
         public DelegateCommand CanvasClickCommand { get; private set; }
         #endregion
@@ -48,6 +48,7 @@ namespace GameOfLife.ViewModel
         public ViewModel(Model.Model model)
         {
             this._model = model;
+            //this._playIcon = "&#xE768;";
             _model.CellChanged += new EventHandler<CellChangedEventArgs>(Model_CellChanged);
             _model.SizeChanged += new EventHandler(Model_SizeChanged);
             _model.GenerationChanged += new EventHandler(Model_GenerationChanged);
@@ -55,8 +56,10 @@ namespace GameOfLife.ViewModel
 
             LoadConfigurationCommand = new DelegateCommand(x => OnLoadConfiguration());
             StepCommand = new DelegateCommand(x => OnStep());
-            PlayCommand = new DelegateCommand(x => OnPlay());
-            PauseCommand = new DelegateCommand(x => OnPause());
+            PlayCommand = new DelegateCommand(x => {
+                OnPlay();
+            });
+            //PauseCommand = new DelegateCommand(x => OnPause());
             DeleteCellCommand = new DelegateCommand(x =>
             {
                 CellField field = (CellField)x;
