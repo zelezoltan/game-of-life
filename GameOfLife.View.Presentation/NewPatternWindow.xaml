@@ -1,0 +1,18 @@
+﻿<Window x:Class="GameOfLife.View.Presentation.NewPatternWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="New Pattern" Height="75" Width="208" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Grid>
+        <TextBlock Text="Pattern size:" Width="100" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top"></TextBlock>
+        <TextBox Text="12" Width="100" HorizontalAlignment="Right" Height="18" VerticalAlignment="Top"></TextBox>
+        <Button Width="100" Height="18" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Empty Pattern</TextBlock>
+        </Button>
+        <Button Width="100" Height="18" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Random Pattern</TextBlock>
+        </Button>
+    </Grid>
+</Window>

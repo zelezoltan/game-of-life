@@ -15,6 +15,7 @@ namespace GameOfLife.View.Presentation
         private Model.Model _model;
         private DispatcherTimer _timer;
         private MainWindow _view;
+        private NewPatternWindow _newPatternWindow;
         private ViewModel.ViewModel _viewModel;
         private Persistence.Persistence _persistence;
         #endregion
@@ -42,6 +43,7 @@ namespace GameOfLife.View.Presentation
             _viewModel.Step += new EventHandler(ViewModel_Step);
             //_viewModel.Pause += new EventHandler(ViewModel_Pause);
             _viewModel.CanvasClick += new EventHandler(ViewModel_CanvasClicked);
+            _viewModel.OpenNewPatternWindow += new EventHandler(ViewModel_OpenNewPatternWindow);
 
             // Create the view
             _view = new MainWindow();
@@ -61,6 +63,16 @@ namespace GameOfLife.View.Presentation
         #endregion
 
         #region ViewModel Event Handlers
+        private void ViewModel_OpenNewPatternWindow(Object sender, EventArgs e)
+        {
+            if (this._newPatternWindow == null)
+            {
+                this._newPatternWindow = new NewPatternWindow();
+                this._newPatternWindow.DataContext = _viewModel;
+            }
+            this._newPatternWindow.ShowDialog();
+        }
+
         private void ViewModel_CanvasClicked(Object sender, EventArgs e)
         {
             Point p = Mouse.GetPosition(Mouse.DirectlyOver);

@@ -41,30 +41,43 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Patterns" IsEnabled="{Binding Paused}">
-                <MenuItem Header="Create Pattern" IsEnabled="False" Command="{Binding NewPatternCommand}"></MenuItem>
-                <MenuItem Header="Load Pattern" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}"></MenuItem>
+                <MenuItem Header="Create Pattern" IsEnabled="{Binding Paused}" Command="{Binding NewPatternCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock FontSize="12" FontFamily="Segoe MDL2 Assets" Text="&#xE710;" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Load Pattern" IsEnabled="{Binding Paused}" Command="{Binding LoadConfigurationCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock FontSize="12" FontFamily="Segoe MDL2 Assets" Text="&#xE838;" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save Pattern" IsEnabled="False" Command="{Binding SavePatternCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock FontSize="12" FontFamily="Segoe MDL2 Assets" Text="&#xE74E;" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
+            <MenuItem Header="Description" IsEnabled="False" Command="{Binding ShowDescriptionCommand}"></MenuItem>
+            <MenuItem Header="Help" IsEnabled="False" Command="{Binding HelpCommand}"></MenuItem>
             
-            
-            <!--<MenuItem FontFamily="Segoe MDL2 Assets" Header="&#xE769;" IsEnabled="{Binding Playing}" Command="{Binding PauseCommand}"></MenuItem>-->
             <MenuItem FontFamily="Segoe MDL2 Assets" 
-                      Header="&#xE76B;" 
+                      Header="&#xE892;" 
                       IsEnabled="False" 
                       Command="{Binding StepBackCommand}"
-                      ToolTipService.InitialShowDelay="1000"
+                      ToolTipService.InitialShowDelay="500"
                       ToolTipService.BetweenShowDelay="10000"
                       ToolTip="Step back"></MenuItem>
             <MenuItem Style="{StaticResource PlayButtonStyle}" 
                       FontFamily="Segoe MDL2 Assets" 
                       Command="{Binding PlayCommand}" 
-                      ToolTipService.InitialShowDelay="1000"
+                      ToolTipService.InitialShowDelay="500"
                       ToolTipService.BetweenShowDelay="10000"
                       ></MenuItem>
             <MenuItem FontFamily="Segoe MDL2 Assets" 
-                      Header="&#xE76C;" 
+                      Header="&#xE893;" 
                       IsEnabled="{Binding Paused}" 
                       Command="{Binding StepCommand}"
-                      ToolTipService.InitialShowDelay="1000"
+                      ToolTipService.InitialShowDelay="500"
                       ToolTipService.BetweenShowDelay="10000"
                       ToolTip="Step"></MenuItem>
         </Menu>

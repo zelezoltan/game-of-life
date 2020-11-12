@@ -34,6 +34,7 @@ namespace GameOfLife.ViewModel
         //public DelegateCommand PauseCommand { get; private set; }
         public DelegateCommand DeleteCellCommand { get; private set; }
         public DelegateCommand CanvasClickCommand { get; private set; }
+        public DelegateCommand NewPatternCommand { get; private set; }
         #endregion
 
         #region Events
@@ -42,6 +43,7 @@ namespace GameOfLife.ViewModel
         public event EventHandler Pause;
         public event EventHandler Play;
         public event EventHandler CanvasClick;
+        public event EventHandler OpenNewPatternWindow;
         #endregion
 
         #region Constructor
@@ -68,6 +70,7 @@ namespace GameOfLife.ViewModel
             CanvasClickCommand = new DelegateCommand(x => {
                 OnCanvasClick();
             });
+            NewPatternCommand = new DelegateCommand(x => OnNewPattern());
 
             Cells = new ObservableCollection<CellField>();
         }
@@ -134,6 +137,10 @@ namespace GameOfLife.ViewModel
         #endregion
 
         #region Event Methods
+        private void OnNewPattern()
+        {
+            OpenNewPatternWindow?.Invoke(this, EventArgs.Empty);
+        }
 
         private void OnCanvasClick()
         {
