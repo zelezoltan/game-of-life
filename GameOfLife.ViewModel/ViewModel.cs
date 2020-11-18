@@ -14,12 +14,24 @@ namespace GameOfLife.ViewModel
     {
         #region Fields
         private Model.Model _model;
+        private string _newPatternSize = "0";
         #endregion
 
         #region Properties
         public ObservableCollection<CellField> Cells { get; set; }
 
         public int Size { get { return _model.Size; } }
+
+        // TODO: This should be an integer. Use value converter on frontend
+        public string NewPatternSize {
+            get { return _newPatternSize; }
+            set {
+                if (this._newPatternSize != value)
+                {
+                    this._newPatternSize = value;
+                }
+            }
+        }
 
         public int Generation { get { return _model.Generation; } }
 
@@ -35,6 +47,9 @@ namespace GameOfLife.ViewModel
         public DelegateCommand DeleteCellCommand { get; private set; }
         public DelegateCommand CanvasClickCommand { get; private set; }
         public DelegateCommand NewPatternCommand { get; private set; }
+
+        public DelegateCommand CreateEmptyPatternCommand { get; private set; }
+        public DelegateCommand CreateRandomPatternCommand { get; private set; }
         #endregion
 
         #region Events
@@ -44,6 +59,7 @@ namespace GameOfLife.ViewModel
         public event EventHandler Play;
         public event EventHandler CanvasClick;
         public event EventHandler OpenNewPatternWindow;
+        public event EventHandler<NewPatternEventArgs> CreatePattern;
         #endregion
 
         #region Constructor
@@ -65,12 +81,14 @@ namespace GameOfLife.ViewModel
             DeleteCellCommand = new DelegateCommand(x =>
             {
                 CellField field = (CellField)x;
-                _model.ChangeCell((int)(field.Row / CellSizeY), (int)(field.Column / CellSizeX));
+                _model.ChangeCell((int)((field.Row + 0.001) / CellSizeY), (int)((field.Column + 0.001) / CellSizeX));
             });
             CanvasClickCommand = new DelegateCommand(x => {
                 OnCanvasClick();
             });
             NewPatternCommand = new DelegateCommand(x => OnNewPattern());
+            CreateEmptyPatternCommand = new DelegateCommand(x => OnCreateEmptyPattern());
+            CreateRandomPatternCommand = new DelegateCommand(x => OnCreateRandomPattern());
 
             Cells = new ObservableCollection<CellField>();
         }
@@ -168,6 +186,16 @@ namespace GameOfLife.ViewModel
             Pause?.Invoke(this, EventArgs.Empty);
             OnPropertyChanged("Paused");
             OnPropertyChanged("Playing");
+        }
+
+        private void OnCreateEmptyPattern()
+        {
+            CreatePattern?.Invoke(this, new NewPatternEventArgs(NewPatternSize, false));
+        }
+
+        private void OnCreateRandomPattern()
+        {
+            CreatePattern?.Invoke(this, new NewPatternEventArgs(NewPatternSize, true));
         }
         #endregion
     }

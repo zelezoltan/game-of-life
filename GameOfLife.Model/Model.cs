@@ -230,6 +230,45 @@ namespace GameOfLife.Model
                 OnCellChanged(x, y, this._cells[x, y]);
             }
         }
+
+        public void NewPattern(int size, bool isRandom)
+        {
+            this._size = size;
+            this._generation = 0;
+            Random rand = new Random();
+            if (AliveCells == null)
+            {
+                AliveCells = new List<Coordinates>();
+            } else
+            {
+                AliveCells.Clear();
+            }
+            this._cells = new Cell[this._size, this._size];
+            for (int i = 0; i < this._size; ++i)
+            {
+                for (int j = 0; j < this._size; ++j)
+                {
+                    if (isRandom)
+                    {
+                        int isAlive = rand.Next(0, 2);
+                        if (isAlive == 1)
+                        {
+                            this._cells[i, j] = Cell.Alive;
+                            AliveCells.Add(new Coordinates(i, j));
+                        }
+                        else
+                        {
+                            this._cells[i, j] = Cell.Dead;
+                        }
+                    }
+                    else
+                    {
+                        this._cells[i, j] = Cell.Dead;
+                    }
+                }
+            }
+            OnLoadComplete();
+        }
         #endregion
 
         #region Private Methods

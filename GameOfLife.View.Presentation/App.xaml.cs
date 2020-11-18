@@ -44,6 +44,7 @@ namespace GameOfLife.View.Presentation
             //_viewModel.Pause += new EventHandler(ViewModel_Pause);
             _viewModel.CanvasClick += new EventHandler(ViewModel_CanvasClicked);
             _viewModel.OpenNewPatternWindow += new EventHandler(ViewModel_OpenNewPatternWindow);
+            _viewModel.CreatePattern += new EventHandler<ViewModel.NewPatternEventArgs>(ViewModel_CreatePattern);
 
             // Create the view
             _view = new MainWindow();
@@ -124,6 +125,26 @@ namespace GameOfLife.View.Presentation
                 MessageBox.Show("Error while loading the configuration file!", "Game of Life", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void ViewModel_CreatePattern(Object sender, ViewModel.NewPatternEventArgs e)
+        {
+            if (e.Size == null || e.Size == "")
+            {
+                MessageBox.Show("Please give a valid size!", "Game of Life", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                int size = int.Parse(e.Size);
+                _model.NewPattern(size, e.Random);
+                _newPatternWindow.Hide();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please give a valid size!", "Game of Life", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         #endregion
     }
 }
